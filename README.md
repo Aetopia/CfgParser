@@ -28,6 +28,27 @@ Aim of this project is the following:
     ```nim
     type Cfg* = OrderedTableRef[string, OrderedTableRef[string, string]]
     ```
+    - Functions
+        1. ```nim
+            proc setSectionValue*(cfg: var Cfg, section, key, value: string)
+            ```   
+            Set the value of a key for the specified section.
+        
+        2. ```nim
+            proc delSection*(cfg: var Cfg, section: string)
+            ```
+            Delete the specified section.
+        
+        3. ```nim
+            proc delSectionKey*(cfg: var Cfg, section, key: string)
+            ```
+            Delete the specified key from a section.
+                  
+        4. ```nim
+            proc getSectionValue*(cfg: Cfg, section, key: string,
+        default: string = "")
+            ```
+            Get the value of a key from the specified section.
 
 2. Create a new Configuration File Object.
     ```nim
@@ -60,7 +81,7 @@ Aim of this project is the following:
 
     - String Representation
 
-        ```
+        ```nim
         proc dumpCfg*(cfg: Cfg, delimiter: char = '='): string
         ```
         - `cfg`: Configuration File Object
@@ -74,9 +95,3 @@ Aim of this project is the following:
         - `cfg`: Configuration File Object
         - `filename`: Name of the file write.
         - `delimiter`: The character used to separate keys from values.
-
-
-
-
-
-
