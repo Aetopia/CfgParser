@@ -45,8 +45,7 @@ Aim of this project is the following:
             Delete the specified key from a section.
                   
         4. ```nim
-            proc getSectionValue*(cfg: Cfg, section, key: string,
-        default: string = "")
+            proc getSectionValue*(cfg: Cfg, section, key: string, default: string = "")
             ```
             Get the value of a key from the specified section.
 
