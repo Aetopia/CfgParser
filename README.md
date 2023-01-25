@@ -62,7 +62,7 @@ Aim of this project is the following:
         proc loadCfg*(str: string, case_sensitive: bool = true, delimiter: char = '=', comments: openArray[char] = [';']): Cfg
         ```
         - `str`: String representation of the configuration file.
-        - `case_sensitive`: Whether keys and sections should be case_senstive.
+        - `caseSensitive`: Whether keys and sections should be case_senstive.
         - `delimiter`: The character used to separate keys from values.
         - `comments`: A sequence of characters used to indicate comments.
     
@@ -72,7 +72,7 @@ Aim of this project is the following:
         proc readCfg*(str: string, case_sensitive: bool = true, delimiter: char = '=', comments: openArray[char] = [';']): Cfg
         ```
         - `filename`: Name of the file to read from.
-        - `case_sensitive`: Whether keys and sections should be case_senstive.
+        - `caseSensitive`: Whether keys and sections should be case_senstive.
         - `delimiter`: The character used to separate keys from values.
         - `comments`: A sequence of characters used to indicate comments.
 
