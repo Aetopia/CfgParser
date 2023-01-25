@@ -6,7 +6,6 @@ type Cfg* = OrderedTableRef[string, OrderedTableRef[string, string]]
 proc newCfg*: Cfg = return newOrderedTable[string, OrderedTableRef[string,
         string]]()
 
-# Insert Functions
 proc setSectionValue*(cfg: var Cfg, section, key, value: string) =
     let
         s_section = section.strip()
@@ -15,14 +14,12 @@ proc setSectionValue*(cfg: var Cfg, section, key, value: string) =
             string]()
     cfg[s_section][s_key] = value.strip()
 
-# Delete Functions
 proc delSection*(cfg: var Cfg, section: string) =
     cfg.del(section.strip())
 
 proc delSectionKey*(cfg: var Cfg, section, key: string) =
     cfg[section.strip()].del(key.strip())
 
-# Get Functions
 proc getSectionValue*(cfg: Cfg, section, key: string,
         default: string = ""): string =
     let s_section = section.strip()
@@ -31,13 +28,8 @@ proc getSectionValue*(cfg: Cfg, section, key: string,
             return cfg[s_section][key.strip()]
     return default
 
-proc loadCfg*(str: string, case_sensitive: bool = true,
+proc loadCfg*(str: string, caseSensitive: bool = true,
         delimiter: char = '=', comments: openArray[char] = [';']): Cfg =
-    # Read a configuration file and return a `Cfg` or `OrderedTableRef[string, OrderedTableRef[string, string]]` type.
-    # str: string -> String representation of a configuration file.
-    # case_sensitive: bool -> If `false`, all sections & keys will be converted to lowercase.
-    # delimiter: char -> The character used to separate keys from values.
-    # comments: openArray[char] -> A sequence of characters used to indicate comments.
 
     var
         cfg = newCfg()
@@ -49,7 +41,6 @@ proc loadCfg*(str: string, case_sensitive: bool = true,
     for i in str.splitLines():
         let line = i.strip()
 
-        # Avoid parsing any blank lines or comments.
         if line.len == 0 or comments.contains(line[0]): continue
 
         # Parse the section.
@@ -58,7 +49,6 @@ proc loadCfg*(str: string, case_sensitive: bool = true,
             if case_sensitive: section = section.toLower()
             cfg[section] = newOrderedTable[string, string]()
 
-        # Parse the key-value pair.
         else:
             let
                 keyvalue = line.split(delimiter, 1)
@@ -70,16 +60,11 @@ proc loadCfg*(str: string, case_sensitive: bool = true,
 
     return cfg
 
-proc readCfg*(filename: string, case_sensitive: bool = true,
+proc readCfg*(filename: string, caseSensitive: bool = true,
         delimiter: char = '=', comments: openArray[char] = [';']): Cfg =
-    # Read a configuration file and return a `Cfg` or `OrderedTableRef[string, OrderedTableRef[string, string]]` type.
     return loadCfg(readFile(filename))
 
 proc dumpCfg*(cfg: Cfg, delimiter: char = '='): string =
-    # Dump a string representation of a `Cfg` or `OrderedTableRef[string, OrderedTableRef[string, string]]` type.
-    # cfg: Cfg -> Pass a `Cfg` or `OrderedTableRef[string, OrderedTableRef[string, string]]` type to be dumped.
-    # delimiter: char -> The character used to separate keys from values.
-
     var content: seq[string]
     for section in cfg.keys:
         if section != "": content.add("[" & section & "]")
@@ -91,9 +76,7 @@ proc dumpCfg*(cfg: Cfg, delimiter: char = '='): string =
     return content.join("\n").strip(chars = {'\n'})
 
 proc writeCfg*(cfg: Cfg, filename: string, delimiter: char = '=') =
-    # Write a `Cfg` or `OrderedTableRef[string, OrderedTableRef[string, string]]` type to a file.
     writeFile(filename, dumpCfg(cfg, delimiter))
 
 proc `$`*(cfg: Cfg): string =
-    # Dump a string representation of a `Cfg` or `OrderedTableRef[string, OrderedTableRef[string, string]]` type.
     return dumpCfg(cfg)
