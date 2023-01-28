@@ -46,7 +46,7 @@ proc loadCfg*(str: string, caseSensitive: bool = true,
         # Parse the section.
         elif [line[0], line[^1]] == ['[', ']']:
             section = line.strip(chars = {'[', ']', ' '})
-            if case_sensitive: section = section.toLower()
+            if not case_sensitive: section = section.toLower()
             cfg[section] = newOrderedTable[string, string]()
 
         else:
@@ -55,7 +55,7 @@ proc loadCfg*(str: string, caseSensitive: bool = true,
                 key = keyvalue[0].strip()
                 value = keyvalue[1].strip()
             if key != "" or value != "":
-                if case_sensitive: cfg[section][key.toLower()] = value
+                if not case_sensitive: cfg[section][key.toLower()] = value
                 else: cfg[section][key] = value
 
     return cfg
